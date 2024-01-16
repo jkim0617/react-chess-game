@@ -40,17 +40,36 @@ function isValidSquare(currPiece, nextPOS, pieceIndexArray, setSelectedPiece, pi
         : currPiece.type === "rook" ? PieceMove.rookMovement(currPiece, nextPOS, piece, pieceIndexArray)
           : currPiece.type === "bishop" ? PieceMove.bishopMovement(currPiece, nextPOS, piece, pieceIndexArray)
             : currPiece.type === "queen" ? PieceMove.queenMovement(currPiece, nextPOS, piece, pieceIndexArray)
-              : ""
+              : currPiece.type === "knight" ? PieceMove.knightMovement(currPiece, nextPOS, piece, pieceIndexArray)
+                : ""
   )
+}
+
+const colToAlpha = (index) => {
+  return (
+    index === 0 ? "a"
+      : index === 1 ? "b"
+        : index === 2 ? "c"
+          : index === 3 ? "d"
+            : index === 4 ? "e"
+              : index === 5 ? "f"
+                : index === 6 ? "g"
+                  : "h"
+  )
+}
+
+const moveTracker = (prevIndex, nextIndex) => {
+  prevIndex = prevIndex[0].index;
+  return (`${8 - Math.floor(prevIndex / 8)}${colToAlpha(prevIndex % 8)} to ${8 - Math.floor(nextIndex / 8)}${colToAlpha(nextIndex % 8)}`)
 }
 
 const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece, selectedPiece, setSelectedPiece, playerTurn, setPlayerTurn }) => {
   const pieceIndexArray = piece.map((currPiece) => { return currPiece.index });
 
-  const pieceName = piece.filter((curr) => {
+  const pieceImg = piece.filter((curr) => {
     return (curr.index === uniqueIndex)
   }).map((curr) => {
-    return curr.type
+    return curr.img
   })[0]
 
   return (
@@ -64,6 +83,11 @@ const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece
           } else { // moving piece to new uniqueIndex
             if (isValidSquare(selectedPiece[0], uniqueIndex, pieceIndexArray, setSelectedPiece, piece, setPiece)) {
               // console.log("valid move")
+
+
+              console.log(moveTracker(selectedPiece, uniqueIndex))
+
+
               let movingPiece = selectedPiece[0]; // creating copy of selected piece
               movingPiece.index = uniqueIndex; // updating copy's index
               let pieceCopy = [...piece]; // copying piece array
@@ -75,7 +99,7 @@ const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece
               })
               setPiece([...pieceCopy, movingPiece])
               setSelectedPiece([-1])
-              setPlayerTurn(playerTurn === "white" ? "black" : "white")
+              // setPlayerTurn(playerTurn === "white" ? "black" : "white")
             }
           }
         }
@@ -90,12 +114,11 @@ const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece
 
       }}
     >
-      {/* <p>{`${index1},${index2Alpha}`}</p> */}
-      <p className="unique-index">{uniqueIndex}</p>
+      <p>{`${index1},${index2Alpha}`}</p>
+      {/* <p className="unique-index">{uniqueIndex}</p> */}
       <div className={genPieceClass(uniqueIndex, piece, selectedPiece)}>
-        {/* {pieceName} */}
+        <img src={pieceImg} className="piece-image"></img>
       </div>
-
     </div>
   )
 }

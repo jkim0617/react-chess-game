@@ -149,6 +149,17 @@ const PieceMove = {
         return ankleBreak(currPiece, nextPOS, pieceIndexArray)
       }
     }
+  },
+  knightMovement: function (currPiece, nextPOS, piece, pieceIndexArray) {
+    let index1 = Math.floor(currPiece.index / 8);
+    let index2 = currPiece.index % 8;
+    let nextPos1 = Math.floor(nextPOS / 8);
+    let nextPos2 = nextPOS % 8;
+    if (Math.abs(index1 - nextPos1) === 2 && Math.abs(index2 - nextPos2) === 1) {
+      return true;
+    } else if (Math.abs(index1 - nextPos1) === 1 && Math.abs(index2 - nextPos2) === 2) {
+      return true;
+    }
   }
 }
 

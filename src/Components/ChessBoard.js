@@ -51,14 +51,14 @@ const ChessBoard = () => {
 
   const colToAlpha = (index) => {
     return (
-      index === 0 ? "A"
-        : index === 1 ? "B"
-          : index === 2 ? "C"
-            : index === 3 ? "D"
-              : index === 4 ? "E"
-                : index === 5 ? "F"
-                  : index === 6 ? "G"
-                    : "H"
+      index === 0 ? "a"
+        : index === 1 ? "b"
+          : index === 2 ? "c"
+            : index === 3 ? "d"
+              : index === 4 ? "e"
+                : index === 5 ? "f"
+                  : index === 6 ? "g"
+                    : "h"
     )
   }
 
@@ -67,7 +67,7 @@ const ChessBoard = () => {
       return <BoardSquare
         uniqueIndex={(index1 * 8) + index2}
         key={`Square-${index1}-${index2}`}
-        index1={index1 + 1}
+        index1={8 - index1}
         index2={index2}
         index2Alpha={colToAlpha(index2)}
         piece={piece}
