@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Pawn from "../Classes/Pawn";
 import King from "../Classes/King";
 import Rook from "../Classes/Rook";
-import Bishop from "../Classes/Bishop"
+import Bishop from "../Classes/Bishop";
 import Queen from "../Classes/Queen";
+import Knight from "../Classes/Knight"
 
 
 const ChessBoard = () => {
@@ -32,6 +33,7 @@ const ChessBoard = () => {
     final = [...final, new Rook(0, "black"), new Rook(7, "black"), new Rook(56, "white"), new Rook(63, "white")]; // spawn rooks
     final = [...final, new Bishop(2, "black"), new Bishop(5, "black"), new Bishop(58, "white"), new Bishop(61, "white"),]; // bishop
     final = [...final, new Queen(3, "black"), new Queen(59, "white")]; // spawn queen
+    final = [...final, new Knight(1, "black"), new Knight(6, "black"), new Knight(57, "white"), new Knight(62, "white")]
     return final;
   }
 
