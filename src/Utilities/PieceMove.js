@@ -28,10 +28,10 @@ function goSkrrt(currPiece, nextPOS, pieceIndexArray, slutNum) {
   let bige = currPiece.index > nextPOS ? currPiece.index : nextPOS;
   if ((currPiece.index - nextPOS) % slutNum === 0) {
     for (let i = smol + slutNum; i < bige; i += slutNum) {
-      console.log(i)
+      // console.log(i)
       if (pieceIndexArray.includes(i)) {
-        console.log("uwu oh no i fucky wucky")
-        console.log("the fuck up:", i)
+        // console.log("uwu oh no i fucky wucky")
+        // console.log("the fuck up:", i)
         return false;
       }
     }
@@ -44,10 +44,10 @@ function ankleBreak(currPiece, nextPOS, pieceIndexArray) {
   let smol = currPiece.index < nextPOS ? currPiece.index : nextPOS;
   let bige = currPiece.index > nextPOS ? currPiece.index : nextPOS;
   for (let i = smol + 1; i < bige; i++) {
-    console.log(i);
+    // console.log(i);
     if (pieceIndexArray.includes(i)) {
-      console.log("uwu oh no i fucky wucky")
-      console.log("the fuck up:", i)
+      // console.log("uwu oh no i fucky wucky")
+      // console.log("the fuck up:", i)
       return false;
     }
   }

@@ -99,7 +99,7 @@ const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece
               })
               setPiece([...pieceCopy, movingPiece])
               setSelectedPiece([-1])
-              // setPlayerTurn(playerTurn === "white" ? "black" : "white")
+              setPlayerTurn(playerTurn === "white" ? "black" : "white")
             }
           }
         }
@@ -114,7 +114,7 @@ const BoardSquare = ({ uniqueIndex, index1, index2, index2Alpha, piece, setPiece
 
       }}
     >
-      <p>{`${index1},${index2Alpha}`}</p>
+      {/* <p>{`${index1},${index2Alpha}`}</p> */}
       {/* <p className="unique-index">{uniqueIndex}</p> */}
       <div className={genPieceClass(uniqueIndex, piece, selectedPiece)}>
         <img src={pieceImg} className="piece-image"></img>
