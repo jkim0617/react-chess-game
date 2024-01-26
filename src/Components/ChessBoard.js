@@ -6,6 +6,8 @@ import Rook from "../Classes/Rook";
 import Bishop from "../Classes/Bishop";
 import Queen from "../Classes/Queen";
 import Knight from "../Classes/Knight"
+import Movement from "../Utilities/Movement"
+import PieceMove from "../Utilities/PieceMove";
 
 
 const ChessBoard = () => {
@@ -62,6 +64,62 @@ const ChessBoard = () => {
     )
   }
 
+  function moveTracker(prevIndex, nextIndex) {
+    prevIndex = prevIndex[0].index;
+    return (`${8 - Math.floor(prevIndex / 8)}${colToAlpha(prevIndex % 8)} to ${8 - Math.floor(nextIndex / 8)}${colToAlpha(nextIndex % 8)}`)
+  }
+
+  function movePiece(uniqueIndex, pieceIndexArray) {
+    if (selectedPiece[0] !== -1) { // checks if there is a selected piece
+      if (selectedPiece[0].index === uniqueIndex) { // unselecting a piece
+        setSelectedPiece([-1])
+      } else { // moving piece to new uniqueIndex
+        if (isValidSquare(selectedPiece[0], uniqueIndex, pieceIndexArray, setSelectedPiece, piece, setPiece)) {
+
+
+          // console.log(moveTracker(selectedPiece, uniqueIndex))
+
+
+          let movingPiece = selectedPiece[0]; // creating copy of selected piece
+          movingPiece.index = uniqueIndex; // updating copy's index
+          let pieceCopy = [...piece]; // copying piece array
+          pieceCopy = pieceCopy.filter((curr) => { // filtering out the old selected piece
+            return (curr !== selectedPiece[0])
+          })
+          pieceCopy = pieceCopy.filter((curr) => { // removing any pieces that might be in the new location
+            return (curr.index !== uniqueIndex)
+          })
+
+
+          setPiece([...pieceCopy, movingPiece]) // update pieces
+          setSelectedPiece([-1]) // remove selected piece
+          setPlayerTurn(playerTurn === "white" ? "black" : "white") // switch player turn
+
+        }
+      }
+    }
+    // selecting a piece
+    else if (pieceIndexArray.includes(uniqueIndex)) {
+      let selected = piece.filter((option) => {
+        return (option.index === uniqueIndex)
+      })
+      if (selected[0].side === playerTurn)
+        setSelectedPiece(selected)
+    }
+  }
+
+  function isValidSquare(currPiece, nextPOS, pieceIndexArray, setSelectedPiece, piece) {
+    return (
+      currPiece.type === "pawn" ? PieceMove.pawnMovement(currPiece, nextPOS, pieceIndexArray, setSelectedPiece, piece)
+        : currPiece.type === "king" ? PieceMove.kingMovement(currPiece, nextPOS, pieceIndexArray, setSelectedPiece, piece)
+          : currPiece.type === "rook" ? PieceMove.rookMovement(currPiece, nextPOS, piece, pieceIndexArray)
+            : currPiece.type === "bishop" ? PieceMove.bishopMovement(currPiece, nextPOS, piece, pieceIndexArray)
+              : currPiece.type === "queen" ? PieceMove.queenMovement(currPiece, nextPOS, piece, pieceIndexArray)
+                : currPiece.type === "knight" ? PieceMove.knightMovement(currPiece, nextPOS, piece, pieceIndexArray)
+                  : ""
+    )
+  }
+
   const boardDisplay = boardGenerator().map((row, index1) => {
     return row.map((item, index2) => {
       return <BoardSquare
@@ -69,20 +127,17 @@ const ChessBoard = () => {
         key={`Square-${index1}-${index2}`}
         index1={8 - index1}
         index2={index2}
-        index2Alpha={colToAlpha(index2)}
-        piece={piece}
-        setPiece={setPiece}
-        selectedPiece={selectedPiece}
-        setSelectedPiece={setSelectedPiece}
-        playerTurn={playerTurn}
-        setPlayerTurn={setPlayerTurn}
+        movePiece={movePiece} // function
+        piece={piece} // state
+        selectedPiece={selectedPiece} // state
       />
     })
   })
 
-  // useEffect(() => {
-  //   console.log(selectedPiece)
-  // }, [selectedPiece])
+  useEffect(() => {
+    console.log(selectedPiece)
+  }, [selectedPiece])
+
 
   return (
     <div className="game-display-container">

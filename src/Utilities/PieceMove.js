@@ -1,58 +1,9 @@
-function checkIfEnemy(enemySide, nextPOS, piece) {
-  if (piece.filter((curr) => {
-    return curr.side === enemySide
-  }).map((curr) => {
-    return curr.index
-  }).includes(nextPOS)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+import Movement from "./Movement";
 
-function checkIfFriendly(friendlySide, nextPOS, piece) {
-  if (piece.filter((curr) => {
-    return curr.side === friendlySide
-  }).map((curr) => {
-    return curr.index
-  }).includes(nextPOS)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-// any vertical movement
-function goSkrrt(currPiece, nextPOS, pieceIndexArray, slutNum) {
-  let smol = currPiece.index < nextPOS ? currPiece.index : nextPOS;
-  let bige = currPiece.index > nextPOS ? currPiece.index : nextPOS;
-  if ((currPiece.index - nextPOS) % slutNum === 0) {
-    for (let i = smol + slutNum; i < bige; i += slutNum) {
-      // console.log(i)
-      if (pieceIndexArray.includes(i)) {
-        // console.log("uwu oh no i fucky wucky")
-        // console.log("the fuck up:", i)
-        return false;
-      }
-    }
-    return true;
-  }
-}
-
-// side to side movement
-function ankleBreak(currPiece, nextPOS, pieceIndexArray) {
-  let smol = currPiece.index < nextPOS ? currPiece.index : nextPOS;
-  let bige = currPiece.index > nextPOS ? currPiece.index : nextPOS;
-  for (let i = smol + 1; i < bige; i++) {
-    // console.log(i);
-    if (pieceIndexArray.includes(i)) {
-      // console.log("uwu oh no i fucky wucky")
-      // console.log("the fuck up:", i)
-      return false;
-    }
-  }
-  return true;
-}
+const checkIfEnemy = Movement.checkIfEnemy
+const checkIfFriendly = Movement.checkIfFriendly
+const goSkrrt = Movement.goSkrrt
+const ankleBreak = Movement.ankleBreak
 
 const PieceMove = {
   pawnMovement: function (currPiece, nextPOS, pieceIndexArray, setSelectedPiece, piece) {
